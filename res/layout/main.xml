@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+		<ToggleButton android:text="ServiceStart" android:id="@+id/toggleButton_startService" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+
+	</LinearLayout>
+
+
+
+	<ImageView android:id="@+id/line1" android:layout_width="match_parent"
+		android:layout_height="1dp" android:background="#FFFFFF"
+		android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
+		android:layout_marginLeft="5dp" android:layout_marginRight="5dp" />
+		
+	<TextView android:id="@+id/title" android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="center_vertical|left"
+             android:text="LastPosition" android:textStyle="bold" />
+             
+   <LinearLayout android:orientation="horizontal"
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/provider_label"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:gravity="center_vertical|left" android:layout_weight="1"
+            android:text="Provider:" android:textStyle="bold" />
+        <TextView android:id="@+id/provider_data" android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center_vertical|left"
+            android:layout_weight="1" android:text="" android:textStyle="bold" />
+    </LinearLayout>  
+           
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/latitude_label"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:gravity="center_vertical|left" android:layout_weight="1"
+            android:text="Latitude:" android:textStyle="bold" />
+        <TextView android:id="@+id/latitude_data" android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center_vertical|left"
+            android:layout_weight="1" android:text="" android:textStyle="bold" />
+    </LinearLayout>
+    
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/longitude_label"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:gravity="center_vertical|left" android:layout_weight="1"
+            android:text="Longitude:" android:textStyle="bold" />
+        <TextView android:id="@+id/longitude_data" android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center_vertical|left"
+            android:layout_weight="1" android:text="" android:textStyle="bold" />
+    </LinearLayout>
+    
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/elevation_label"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:gravity="center_vertical|left" android:layout_weight="1"
+            android:text="Elevation:" android:textStyle="bold" />
+        <TextView android:id="@+id/elevation_data" android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center_vertical|left"
+            android:layout_weight="1" android:text="" android:textStyle="bold" />
+    </LinearLayout>
+    
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/accuracy_label"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:gravity="center_vertical|left" android:layout_weight="1"
+            android:text="Accuracy:" android:textStyle="bold" />
+        <TextView android:id="@+id/accuracy_data" android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center_vertical|left"
+            android:layout_weight="1" android:text="" android:textStyle="bold" />
+    </LinearLayout>
+    
+</LinearLayout>
