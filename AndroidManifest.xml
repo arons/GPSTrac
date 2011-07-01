@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="ch.arons.android.gps" android:versionCode="1"
-	android:versionName="1.0">
+	package="ch.arons.android.gps" android:versionCode="2" android:versionName="1.0">
 	<uses-sdk android:minSdkVersion="7" />
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
@@ -12,6 +11,9 @@
 			</intent-filter>
 		</activity>
 
+        <activity android:name="SettingActivity"
+            android:screenOrientation="portrait" android:label="@string/app_name_setting"></activity>
+            
 		<service android:name="ch.arons.android.gps.services.LowBatteryLocationService"
 			android:label="Track Recording Service" 
 			android:icon="@drawable/arrow_320"

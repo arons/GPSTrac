@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, GPSTracActivity!</string>
     <string name="app_name">GPSTrac</string>
+    <string name="app_name_setting">GPSTracSettings</string>
 </resources>

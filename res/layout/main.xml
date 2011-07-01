@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/m"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="fill_parent"
+	android:background="@drawable/main_bg">
 
 
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="wrap_content">
+	<RelativeLayout 
+		          android:layout_width="fill_parent" 
+		          android:layout_height="wrap_content"
+		          android:padding="5px">
 
 		<ToggleButton android:text="ServiceStart" android:id="@+id/toggleButton_startService" 
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		/>
+		
+		
 
-	</LinearLayout>
+        
+		<Button android:text="Request GPS" android:id="@+id/button_request_gps" 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		         android:layout_marginRight="10px"
+		        android:layout_alignParentRight="true"
+		        
+		        />
+
+
+	</RelativeLayout>
 
 
 
@@ -79,6 +96,18 @@
             android:gravity="center_vertical|left" android:layout_weight="1"
             android:text="Accuracy:" android:textStyle="bold" />
         <TextView android:id="@+id/accuracy_data" android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center_vertical|left"
+            android:layout_weight="1" android:text="" android:textStyle="bold" />
+    </LinearLayout>
+    
+     <LinearLayout android:orientation="horizontal"
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/date_label"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:gravity="center_vertical|left" android:layout_weight="1"
+            android:text="Last update:" android:textStyle="bold" />
+        <TextView android:id="@+id/date_data" android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:gravity="center_vertical|left"
             android:layout_weight="1" android:text="" android:textStyle="bold" />
     </LinearLayout>

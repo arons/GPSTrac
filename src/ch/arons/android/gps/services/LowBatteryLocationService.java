@@ -3,8 +3,6 @@ package ch.arons.android.gps.services;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ch.arons.android.gps.io.file.GPXWriter;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -15,20 +13,18 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+import ch.arons.android.gps.Preferences;
+import ch.arons.android.gps.io.file.GPXWriter;
 
 public class LowBatteryLocationService extends Service {
 	private static final String COMPONENT = "LowBatteryLocationService";
 
 	
-	private int count = 0;
-	private static final int SAVE_MIN = 5;
 	
 	private long gpsLastStart = -1L;
 	private boolean gpsStarted = false;
-	private static final int GPS_MAX_TRY_MIN = 5;
-	private static final int GPS_POLLING_MIN = 15;
 	
-	
+	private static final int MIN_ACCURACY = 590; 
 	//DO NOT CHANGE
 	private static final int CLOCK_FREQ_MIN = 1;
 	/** This timer invokes periodically the checkLocationListener timer task. */
@@ -36,15 +32,11 @@ public class LowBatteryLocationService extends Service {
 	/** The timer posts a runnable to the main thread via this handler. */
 	private final Handler clockHandler = new Handler();
 	/**
-	 * Task invoked by a timer periodically to make sure the location listener
-	 * is still registered.
+	 * step caller
 	 */
 	private TimerTask clockTask = new TimerTask() {
 		@Override
 		public void run() {
-			// It's always safe to assume that if isRecording() is true, it
-			// implies
-			// that onCreate() has finished.
 			clockHandler.post(new Runnable() {
 				public void run() {
 					step();
@@ -54,13 +46,10 @@ public class LowBatteryLocationService extends Service {
 	};
 	
 	
-	
-	
 
 	private LocationManager locationManager;
 	private PassiveLocationListner passiveLocationListner;
 	private GPSLocationListner gpsLocationListner;
-	
 	
 	private GPXWriter filewriter;
 
@@ -80,13 +69,9 @@ public class LowBatteryLocationService extends Service {
 		Log.d(COMPONENT, "onStartCommand");
 		Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
 
-		count = 0;
-		
-		clock.schedule(clockTask, 0, 1000 * 60 * CLOCK_FREQ_MIN);
-
 		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 60000L, 100, passiveLocationListner);
 		
-		filewriter.createNewFile();
+		clock.schedule(clockTask, 0, 1000 * 60 * CLOCK_FREQ_MIN);
 		
 		// If we get killed, after returning from here, restart
 		return START_STICKY;
@@ -102,7 +87,6 @@ public class LowBatteryLocationService extends Service {
 		locationManager.removeUpdates(passiveLocationListner);
 		locationManager.removeUpdates(gpsLocationListner);
 		
-		filewriter.close();
 		
 		Toast.makeText(this, "service stopped", Toast.LENGTH_SHORT).show();
 	}
@@ -129,7 +113,12 @@ public class LowBatteryLocationService extends Service {
 	
 	
 	private void requestGPS(){
-		if(gpsStarted || System.currentTimeMillis() - gpsLastStart < GPS_POLLING_MIN * 60000L){
+		if(gpsStarted){
+			Log.d(COMPONENT, "GPS already started");
+			return;
+		}
+	    if( System.currentTimeMillis() - gpsLastStart < Preferences.GPS_POLLING_MIN * 60000L
+			&& !gpsLocationListner.isUserRequest()){
 			return;
 		}
 		Log.d(COMPONENT, "requestGPS");
@@ -138,9 +127,10 @@ public class LowBatteryLocationService extends Service {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsLocationListner);
 	}
 	private void removeGPS(){
-		if(gpsStarted && System.currentTimeMillis() - gpsLastStart > GPS_MAX_TRY_MIN *60000L){
+		if(gpsStarted && (System.currentTimeMillis() - gpsLastStart > Preferences.GPS_MAX_TRY_MIN *60000L)){
 			Log.d(COMPONENT, "removeGPS waiting min:"+(System.currentTimeMillis() - gpsLastStart)/60000L);
 			locationManager.removeUpdates(gpsLocationListner);
+			gpsLocationListner.setUserRequest(false);
 			gpsStarted = false;
 		}
 	}
@@ -148,39 +138,49 @@ public class LowBatteryLocationService extends Service {
 	public void onGPSLocationChanged(Location location) {
 		Log.d(COMPONENT, "onGPSLocationChanged:" + location);
 		locationManager.removeUpdates(gpsLocationListner);
-		processLocationUpdate(location);
+		processLocationUpdate(location, gpsLocationListner.isUserRequest());
+		gpsLocationListner.setUserRequest(false);
 		
     }
 	
 	public void onPassiveLocationChanged(Location location) {
 		Log.d(COMPONENT, "onPassiveLocationChanged:" + location);
-		processLocationUpdate(location);
+		processLocationUpdate(location,false);
 	}
 
 	
 	
 	
-	private synchronized void processLocationUpdate(Location location) {
+	private synchronized void processLocationUpdate(Location location, boolean userRequest) {
 		
-		boolean needUpdate = false;
+		boolean needUpdate = userRequest;
 		long now = System.currentTimeMillis();
 		
 		if(LocationStatus.lastLoc == null){
-			needUpdate= true;
+			needUpdate = true;
 		
 		}else{
 			Location lastLoc = LocationStatus.lastLoc;
 			long locationTimeMS = lastLoc.getTime();
 			
-			needUpdate |= now - locationTimeMS > 5 * 60000L; // 5 min
-			needUpdate |= (location.hasAccuracy() && !lastLoc.hasAccuracy());
-			needUpdate |= location.hasAccuracy() && lastLoc.hasAccuracy() && location.getAccuracy() < lastLoc.getAccuracy();
+			if(location.hasAccuracy() && location.getAccuracy() > MIN_ACCURACY){
+				needUpdate = false;
+			}else{
+				needUpdate |= now - locationTimeMS > 5 * 60000L; // 5 min
+				needUpdate |= (location.hasAccuracy() && !lastLoc.hasAccuracy());
+				needUpdate |= location.hasAccuracy() && lastLoc.hasAccuracy() && location.getAccuracy() < lastLoc.getAccuracy();
+			}
+			
 		}
 		
 		
 		if(needUpdate){
 			Log.d(COMPONENT, "updateLoc:" + location);
 			LocationStatus.lastLoc = location;
+			
+			Log.d(COMPONENT, "write location");
+			filewriter.writeLocation(location);
+			
 			LocationStatus.notifyUpdate();
 		}
 		
@@ -192,31 +192,28 @@ public class LowBatteryLocationService extends Service {
 	
 	
 	private void step() {
-		Log.d(COMPONENT, "step:"+count);
+		Log.d(COMPONENT, "step");
 		
 		removeGPS();
 		
 		//Check location
 		Location location = LocationStatus.lastLoc;
 		if(location == null ){
-			if(count > SAVE_MIN-1) requestGPS();
+			requestGPS();
 		}else{
 			long now = System.currentTimeMillis();
 			long locationTimeMS = location.getTime();
-			//if not valid invoke GPS
-			if(now - locationTimeMS > GPS_POLLING_MIN * 60000L){ 
+			//position is too older than GPS polling
+			if(now - locationTimeMS > Preferences.GPS_POLLING_MIN * 60000L){ 
 				requestGPS();
 			}
 		}
-		
-        
-		//save location on file
-		if(count == 0){
-			Log.d(COMPONENT, "write location");
-			filewriter.writeLocation(location);
-		}
-		
-		count = (count + 1) % SAVE_MIN;
+    }
+
+	public void userRequestGPS() {
+		Log.d(COMPONENT, "userRequestGPS");
+		gpsLocationListner.setUserRequest(true);
+		requestGPS();
     }
 
 	

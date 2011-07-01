@@ -6,7 +6,8 @@ import android.os.Bundle;
 
 public class GPSLocationListner implements LocationListener {
 	
-	LowBatteryLocationService service;
+	private LowBatteryLocationService service;
+	private boolean userRequest = false;
 	
 	public GPSLocationListner(LowBatteryLocationService service){
 		this.service = service;
@@ -27,6 +28,14 @@ public class GPSLocationListner implements LocationListener {
 
 	@Override
     public void onProviderDisabled(String provider) {
+    }
+
+	public boolean isUserRequest() {
+    	return userRequest;
+    }
+
+	public void setUserRequest(boolean userRequest) {
+    	this.userRequest = userRequest;
     }
 
 }

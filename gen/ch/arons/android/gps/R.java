@@ -13,31 +13,49 @@ public final class R {
     public static final class drawable {
         public static final int arrow_320=0x7f020000;
         public static final int icon=0x7f020001;
+        public static final int layout_bg=0x7f020002;
+        public static final int main_bg=0x7f020003;
+        public static final int noun_project_621=0x7f020004;
+        public static final int wheel_bg=0x7f020005;
+        public static final int wheel_val=0x7f020006;
     }
     public static final class id {
-        public static final int MenuSettings=0x7f06000d;
-        public static final int accuracy_data=0x7f06000c;
-        public static final int accuracy_label=0x7f06000b;
-        public static final int elevation_data=0x7f06000a;
-        public static final int elevation_label=0x7f060009;
-        public static final int latitude_data=0x7f060006;
-        public static final int latitude_label=0x7f060005;
-        public static final int line1=0x7f060001;
-        public static final int longitude_data=0x7f060008;
-        public static final int longitude_label=0x7f060007;
-        public static final int provider_data=0x7f060004;
-        public static final int provider_label=0x7f060003;
-        public static final int title=0x7f060002;
-        public static final int toggleButton_startService=0x7f060000;
+        public static final int MenuFile=0x7f060017;
+        public static final int MenuSettings=0x7f060016;
+        public static final int accuracy_data=0x7f06000f;
+        public static final int accuracy_label=0x7f06000e;
+        public static final int button_request_gps=0x7f060003;
+        public static final int date_data=0x7f060011;
+        public static final int date_label=0x7f060010;
+        public static final int elevation_data=0x7f06000d;
+        public static final int elevation_label=0x7f06000c;
+        public static final int gps_max_try=0x7f060014;
+        public static final int gps_max_try_data=0x7f060015;
+        public static final int gps_polling_data=0x7f060013;
+        public static final int gps_polling_label=0x7f060012;
+        public static final int latitude_data=0x7f060009;
+        public static final int latitude_label=0x7f060008;
+        public static final int line1=0x7f060004;
+        public static final int listView1=0x7f060001;
+        public static final int longitude_data=0x7f06000b;
+        public static final int longitude_label=0x7f06000a;
+        public static final int m=0x7f060000;
+        public static final int provider_data=0x7f060007;
+        public static final int provider_label=0x7f060006;
+        public static final int title=0x7f060005;
+        public static final int toggleButton_startService=0x7f060002;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
+        public static final int file_list=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int settings=0x7f030002;
     }
     public static final class menu {
         public static final int my_menu=0x7f050000;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
+        public static final int app_name_setting=0x7f040002;
         public static final int hello=0x7f040000;
     }
 }
