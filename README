@@ -3,4 +3,6 @@ GPS Trac
 Allow the user to have a running service that logs geographical positions in a rolling day file with low battery consumption.
  
 
-  
+TODO:
+- check it are satellites in range. If yes we can wait until position is acquired else we can turn the listner off
+- check if network are present, or check time since last network position. In the city wireless position are good enough.
