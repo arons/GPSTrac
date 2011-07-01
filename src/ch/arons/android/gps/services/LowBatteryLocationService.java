@@ -82,6 +82,7 @@ public class LowBatteryLocationService extends Service {
 	
 	private void initLocation() {
 		Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+		//TODO check validity, at least by time...
 		processLocationUpdate(location,false);
     }
 	
@@ -169,6 +170,8 @@ public class LowBatteryLocationService extends Service {
 	
 	
 	private synchronized void processLocationUpdate(Location location, boolean userRequest) {
+		
+		if(location == null) return;
 		
 		boolean needUpdate = userRequest;
 		long now = System.currentTimeMillis();
