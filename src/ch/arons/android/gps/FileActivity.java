@@ -6,7 +6,7 @@ import android.os.Bundle;
 public class FileActivity extends Activity {
 
 	
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
