@@ -68,6 +68,8 @@ public class LowBatteryLocationService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(COMPONENT, "onStartCommand");
 		Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+		
+		initLocation();
 
 		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 60000L, 100, passiveLocationListner);
 		
@@ -76,6 +78,13 @@ public class LowBatteryLocationService extends Service {
 		// If we get killed, after returning from here, restart
 		return START_STICKY;
 	}
+
+	
+	private void initLocation() {
+		Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+		processLocationUpdate(location,false);
+    }
+	
 
 	@Override
 	public void onDestroy() {
@@ -134,10 +143,18 @@ public class LowBatteryLocationService extends Service {
 			gpsStarted = false;
 		}
 	}
+	private void forceRemoveGPS(){
+			locationManager.removeUpdates(gpsLocationListner);
+			gpsLocationListner.setUserRequest(false);
+			gpsStarted = false;
+	}
+	
+	
+	
 	
 	public void onGPSLocationChanged(Location location) {
 		Log.d(COMPONENT, "onGPSLocationChanged:" + location);
-		locationManager.removeUpdates(gpsLocationListner);
+		forceRemoveGPS();
 		processLocationUpdate(location, gpsLocationListner.isUserRequest());
 		gpsLocationListner.setUserRequest(false);
 		
@@ -181,7 +198,10 @@ public class LowBatteryLocationService extends Service {
 			Log.d(COMPONENT, "write location");
 			filewriter.writeLocation(location);
 			
+			forceRemoveGPS();
+			
 			LocationStatus.notifyUpdate();
+			
 		}
 		
 	}

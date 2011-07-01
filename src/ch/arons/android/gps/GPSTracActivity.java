@@ -78,9 +78,7 @@ public class GPSTracActivity extends Activity implements OnCheckedChangeListener
 		notifyLocationUpdate();
 		
 		
-		if(!isMyServiceRunning()){
-			doBindService();
-		}
+		
 		
 	}
 	
@@ -88,7 +86,6 @@ public class GPSTracActivity extends Activity implements OnCheckedChangeListener
 	protected void onDestroy() {
 	    super.onDestroy();
 	    LocationStatus.unregeister();
-	    doUnbindService();
 	}
 	
 	
@@ -109,11 +106,9 @@ public class GPSTracActivity extends Activity implements OnCheckedChangeListener
 		Intent intent = new Intent(this, LowBatteryLocationService.class);
 		startService(intent);
 		
-		doBindService();
 	}
 
 	private void stopService() {
-		doUnbindService();
 		
 		try {
 			Log.d(COMPONENT, "stop service");
@@ -149,55 +144,24 @@ public class GPSTracActivity extends Activity implements OnCheckedChangeListener
 	
 	/******************************************************************************************************************************/
 	
-	private LowBatteryLocationService mBoundService;
-	private ServiceConnection mConnection = new ServiceConnection() {
-	    public void onServiceConnected(ComponentName className, IBinder service) {
-	        // This is called when the connection with the service has been
-	        // established, giving us the service object we can use to
-	        // interact with the service.  Because we have bound to a explicit
-	        // service that we know is running in our own process, we can
-	        // cast its IBinder to a concrete class and directly access it.
-	        mBoundService = ((LowBatteryLocationService.LocalBinder)service).getService();
-
-	    }
-
-	    public void onServiceDisconnected(ComponentName className) {
-	        // This is called when the connection with the service has been
-	        // unexpectedly disconnected -- that is, its process crashed.
-	        // Because it is running in our same process, we should never
-	        // see this happen.
-	        mBoundService = null;
-	    }
-	};
-	
-	void doBindService() {
-		Log.d(COMPONENT, "doBindService");
-
-	    // Establish a connection with the service.  We use an explicit
-	    // class name because we want a specific service implementation that
-	    // we know will be running in our own process (and thus won't be
-	    // supporting component replacement by other applications).
-		if(mBoundService == null){
-			Log.d(COMPONENT, " bindService");
-			bindService(new Intent(this, LowBatteryLocationService.class), mConnection, 0);
-		}
-	}
-	void doUnbindService() {
-		// Detach our existing connection.
-		if(mBoundService != null)
-			unbindService(mConnection);
-	}
-
 
 	public void requestGPS() {
-		doBindService();
-		if(mBoundService != null){
+		if(isMyServiceRunning()){
 			Log.d(COMPONENT, "userRequestGPS");
-			mBoundService.userRequestGPS();
+			bindService(new Intent(this, LowBatteryLocationService.class), 
+			            new ServiceConnection(){
+						    public void onServiceConnected(ComponentName name, IBinder service) {
+								Log.d(COMPONENT, "service connected: userRequestGPS");
+								LowBatteryLocationService mBoundService = ((LowBatteryLocationService.LocalBinder)service).getService();
+								mBoundService.userRequestGPS();
+						    }
+						    public void onServiceDisconnected(ComponentName name) {
+						    }
+						}, 
+						0);
 		}else{
 			Toast.makeText(this, "Start Service First", Toast.LENGTH_SHORT).show();
 		}
-	    
     }
 	
 	
