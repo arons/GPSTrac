@@ -1,1 +1,6 @@
 GPS Trac
+
+Allow the user to have a running service that logs geographical positions in a rolling day file with low battery consumption.
+ 
+
+  
