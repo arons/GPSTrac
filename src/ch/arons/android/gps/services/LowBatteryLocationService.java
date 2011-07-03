@@ -1,13 +1,17 @@
 package ch.arons.android.gps.services;
 
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -137,11 +141,27 @@ public class LowBatteryLocationService extends Service {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsLocationListner);
 	}
 	private void removeGPS(){
+		
+		//check time
 		if(gpsStarted && (System.currentTimeMillis() - gpsLastStart > Preferences.GPS_MAX_TRY_MIN *60000L)){
 			Log.d(COMPONENT, "removeGPS waiting min:"+(System.currentTimeMillis() - gpsLastStart)/60000L);
-			locationManager.removeUpdates(gpsLocationListner);
-			gpsLocationListner.setUserRequest(false);
-			gpsStarted = false;
+			forceRemoveGPS();
+		}
+		
+		//check if no sat found
+		if(gpsStarted){
+			GpsStatus status = locationManager.getGpsStatus(null);
+			Iterable<GpsSatellite> satellites = status.getSatellites();
+			Iterator<GpsSatellite> iter = satellites.iterator();
+			int count = 0;
+			if(iter.hasNext()){
+//				GpsSatellite sat = iter.next();
+				count++;
+			}
+			Log.d(COMPONENT, "sat:"+count);
+			if(count<=0){
+				forceRemoveGPS();
+			}
 		}
 	}
 	private void forceRemoveGPS(){
