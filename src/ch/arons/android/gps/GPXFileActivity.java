@@ -3,7 +3,7 @@ package ch.arons.android.gps;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class FileActivity extends Activity {
+public class GPXFileActivity extends Activity {
 
 
 	/**
@@ -12,7 +12,7 @@ public class FileActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
+        setContentView(R.layout.file_list);
     }
 	
 }

@@ -184,7 +184,7 @@ public class GPSTracActivity extends Activity implements OnCheckedChangeListener
             startActivityForResult(menuSettingsIntent, 0);
             break;
         case R.id.MenuFile:
-        	Intent menuFileIntent = new Intent(getBaseContext(), FileActivity.class);
+        	Intent menuFileIntent = new Intent(getBaseContext(), GPXFileActivity.class);
             startActivityForResult(menuFileIntent, 0);
             break;
         }
@@ -200,7 +200,7 @@ public class GPSTracActivity extends Activity implements OnCheckedChangeListener
             startActivityForResult(menuSettingsIntent, 0);
             break;
         case R.id.MenuFile:
-        	Intent menuFileIntent = new Intent(getBaseContext(), FileActivity.class);
+        	Intent menuFileIntent = new Intent(getBaseContext(), GPXFileActivity.class);
             startActivityForResult(menuFileIntent, 0);
             break;
         }

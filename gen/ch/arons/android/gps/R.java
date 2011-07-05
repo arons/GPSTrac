@@ -20,8 +20,8 @@ public final class R {
         public static final int wheel_val=0x7f020006;
     }
     public static final class id {
-        public static final int MenuFile=0x7f060017;
-        public static final int MenuSettings=0x7f060016;
+        public static final int MenuFile=0x7f060018;
+        public static final int MenuSettings=0x7f060017;
         public static final int accuracy_data=0x7f06000f;
         public static final int accuracy_label=0x7f06000e;
         public static final int button_request_gps=0x7f060003;
@@ -29,9 +29,9 @@ public final class R {
         public static final int date_label=0x7f060010;
         public static final int elevation_data=0x7f06000d;
         public static final int elevation_label=0x7f06000c;
-        public static final int gps_max_try=0x7f060014;
-        public static final int gps_max_try_data=0x7f060015;
-        public static final int gps_polling_data=0x7f060013;
+        public static final int gps_max_try=0x7f060015;
+        public static final int gps_max_try_data=0x7f060016;
+        public static final int gps_polling_data=0x7f060014;
         public static final int gps_polling_label=0x7f060012;
         public static final int latitude_data=0x7f060009;
         public static final int latitude_label=0x7f060008;
@@ -44,6 +44,7 @@ public final class R {
         public static final int provider_label=0x7f060006;
         public static final int title=0x7f060005;
         public static final int toggleButton_startService=0x7f060002;
+        public static final int widgetNumberPicker1=0x7f060013;
     }
     public static final class layout {
         public static final int file_list=0x7f030000;

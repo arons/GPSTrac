@@ -11,7 +11,6 @@ import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -75,7 +74,7 @@ public class LowBatteryLocationService extends Service {
 		
 		initLocation();
 
-		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 60000L, 100, passiveLocationListner);
+		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0L, 0, passiveLocationListner);
 		
 		clock.schedule(clockTask, 0, 1000 * 60 * CLOCK_FREQ_MIN);
 		
