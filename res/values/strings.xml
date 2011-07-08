@@ -3,4 +3,6 @@
     <string name="hello">Hello World, GPSTracActivity!</string>
     <string name="app_name">GPSTrac</string>
     <string name="app_name_setting">GPSTracSettings</string>
+    <string name="app_name_gpx_file">GPSTracFiles</string>
+    <string name="app_name_gpx_file_view">GPSTracFileView</string>
 </resources>

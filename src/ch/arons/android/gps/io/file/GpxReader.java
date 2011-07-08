@@ -1,7 +1,9 @@
 package ch.arons.android.gps.io.file;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -34,6 +36,28 @@ public class GpxReader extends DefaultHandler {
     private Double lon;
     private Double ele;
     private Date time;
+    
+    
+    
+    public static String readText(File file) throws IOException {
+    	BufferedReader reader = null;
+        try {
+        	StringBuffer fileData = new StringBuffer();
+        	reader = new BufferedReader( new FileReader(file));
+            char[] buf = new char[1024];
+            int numRead=0;
+            while((numRead=reader.read(buf)) != -1){
+                String readData = String.valueOf(buf, 0, numRead);
+                fileData.append(readData);
+                buf = new char[1024];
+            }
+            return fileData.toString();
+        } finally {
+        	reader.close();
+        }
+    }
+    
+    
 
     public static List<GPXWayPoint> readTrack(InputStream in) throws IOException {
         try {

@@ -14,9 +14,12 @@
         <activity android:name="SettingActivity"
             android:screenOrientation="portrait" android:label="@string/app_name_setting"></activity>
 
-       <activity android:name="GPXFileActivity"
-            android:screenOrientation="portrait" android:label="@string/app_name_setting"></activity>
-                    
+        <activity android:name="GPXFileActivity"
+            android:screenOrientation="portrait" android:label="@string/app_name_gpx_file"></activity>
+          
+        <activity android:name="GPXFileViewActivity"
+            android:screenOrientation="portrait" android:label="@string/app_name_gpx_file_view"></activity>
+                  
 		<service android:name="ch.arons.android.gps.services.LowBatteryLocationService"
 			android:label="Track Recording Service" 
 			android:icon="@drawable/arrow_320"
