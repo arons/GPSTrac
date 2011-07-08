@@ -13,7 +13,7 @@ import android.widget.Toast;
 import ch.arons.android.gps.io.file.GpxReader;
 
 public class GPXFileViewActivity extends Activity{
-	private static final String COMPONENT = "GPSTracActivity";
+	private static final String COMPONENT = "GPXFileViewActivity";
     
 	public static String fileName = null;
 	
