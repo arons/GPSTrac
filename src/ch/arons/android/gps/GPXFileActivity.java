@@ -3,6 +3,7 @@ package ch.arons.android.gps;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -65,12 +66,15 @@ public class GPXFileActivity extends Activity {
 				return s.endsWith(".gpx");
 			}
 		});
+		
+		Arrays.sort(listOfFile);
 
 		if (listOfFile.length > 0) {
 			String[] filaNames = new String[listOfFile.length];
 			for (int i = 0; i < listOfFile.length; i++) {
-				filaNames[i] = listOfFile[i].getName();
+				filaNames[listOfFile.length - i -1] = listOfFile[i].getName();
 			}
+			
 			list.setAdapter(new ArrayAdapter<String>(this, R.layout.listitem, filaNames));
 		}
 
@@ -88,6 +92,7 @@ public class GPXFileActivity extends Activity {
 			// }
 			menu.add(Menu.NONE, 0, 0, "Delete");
 			menu.add(Menu.NONE, 1, 1, "Send");
+			menu.add(Menu.NONE, 2, 2, "Map");
 		}
 	}
 
@@ -112,6 +117,11 @@ public class GPXFileActivity extends Activity {
 
 		case 1:// send
 			email(file);
+			break;
+			
+		case 2:// Map
+			Intent mapIntent = new Intent(getBaseContext(), GPXFileViewMapActivity.class);
+			startActivityForResult(mapIntent, 0);
 			break;
 
 		default:

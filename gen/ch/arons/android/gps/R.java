@@ -8,6 +8,9 @@
 package ch.arons.android.gps;
 
 public final class R {
+    public static final class array {
+        public static final int menu=0x7f050000;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -20,44 +23,50 @@ public final class R {
         public static final int wheel_val=0x7f020006;
     }
     public static final class id {
-        public static final int MenuFile=0x7f060017;
-        public static final int MenuSettings=0x7f060016;
-        public static final int accuracy_data=0x7f06000f;
-        public static final int accuracy_label=0x7f06000e;
-        public static final int button_request_gps=0x7f060003;
-        public static final int data=0x7f060001;
-        public static final int date_data=0x7f060011;
-        public static final int date_label=0x7f060010;
-        public static final int elevation_data=0x7f06000d;
-        public static final int elevation_label=0x7f06000c;
-        public static final int gps_max_try=0x7f060014;
-        public static final int gps_max_try_data=0x7f060015;
-        public static final int gps_polling_data=0x7f060013;
-        public static final int gps_polling_label=0x7f060012;
-        public static final int latitude_data=0x7f060009;
-        public static final int latitude_label=0x7f060008;
-        public static final int line1=0x7f060004;
-        public static final int longitude_data=0x7f06000b;
-        public static final int longitude_label=0x7f06000a;
-        public static final int m=0x7f060000;
-        public static final int provider_data=0x7f060007;
-        public static final int provider_label=0x7f060006;
-        public static final int title=0x7f060005;
-        public static final int toggleButton_startService=0x7f060002;
+        public static final int MenuFile=0x7f07001a;
+        public static final int MenuSettings=0x7f070019;
+        public static final int accuracy_data=0x7f070012;
+        public static final int accuracy_label=0x7f070011;
+        public static final int button_request_gps=0x7f070006;
+        public static final int data=0x7f070002;
+        public static final int date_data=0x7f070014;
+        public static final int date_label=0x7f070013;
+        public static final int elevation_data=0x7f070010;
+        public static final int elevation_label=0x7f07000f;
+        public static final int gps_max_try=0x7f070017;
+        public static final int gps_max_try_data=0x7f070018;
+        public static final int gps_polling_data=0x7f070016;
+        public static final int gps_polling_label=0x7f070015;
+        public static final int latitude_data=0x7f07000c;
+        public static final int latitude_label=0x7f07000b;
+        public static final int line1=0x7f070007;
+        public static final int list=0x7f070000;
+        public static final int longitude_data=0x7f07000e;
+        public static final int longitude_label=0x7f07000d;
+        public static final int m=0x7f070001;
+        public static final int mainlayout=0x7f070003;
+        public static final int mapview=0x7f070004;
+        public static final int provider_data=0x7f07000a;
+        public static final int provider_label=0x7f070009;
+        public static final int title=0x7f070008;
+        public static final int toggleButton_startService=0x7f070005;
     }
     public static final class layout {
         public static final int file_list=0x7f030000;
         public static final int file_view=0x7f030001;
-        public static final int main=0x7f030002;
-        public static final int settings=0x7f030003;
+        public static final int file_view_map=0x7f030002;
+        public static final int listitem=0x7f030003;
+        public static final int main=0x7f030004;
+        public static final int settings=0x7f030005;
     }
     public static final class menu {
-        public static final int my_menu=0x7f050000;
+        public static final int my_menu=0x7f060000;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
         public static final int app_name_gpx_file=0x7f040003;
         public static final int app_name_gpx_file_view=0x7f040004;
+        public static final int app_name_gpx_file_view_map=0x7f040005;
         public static final int app_name_setting=0x7f040002;
         public static final int hello=0x7f040000;
     }

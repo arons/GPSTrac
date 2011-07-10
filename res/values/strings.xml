@@ -5,7 +5,9 @@
     <string name="app_name_setting">GPSTracSettings</string>
     <string name="app_name_gpx_file">GPSTracFiles</string>
     <string name="app_name_gpx_file_view">GPSTracFileView</string>
+    <string name="app_name_gpx_file_view_map">GPSTracFileView</string>    
     <string-array name="menu">
         <item>Delete</item>
     </string-array>
 </resources>
+
