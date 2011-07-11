@@ -120,6 +120,7 @@ public class GPXFileActivity extends Activity {
 			break;
 			
 		case 2:// Map
+			GPXFileViewMapActivity.fileName = fileName.toString();
 			Intent mapIntent = new Intent(getBaseContext(), GPXFileViewMapActivity.class);
 			startActivityForResult(mapIntent, 0);
 			break;

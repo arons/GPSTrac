@@ -20,6 +20,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.util.Log;
+
 /**
  *
  */
@@ -62,14 +64,17 @@ public class GpxReader extends DefaultHandler {
     public static List<GPXWayPoint> readTrack(InputStream in) throws IOException {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setValidating(true);
+            factory.setValidating(false);
             SAXParser parser = factory.newSAXParser();
             GpxReader reader = new GpxReader();
             parser.parse(in, reader);
             return reader.wayPointList;
         } catch (ParserConfigurationException e) {
+        	Log.e("asd",e.getMessage(),e);
+        	
             throw new IOException(e.getMessage());
         } catch (SAXException e) {
+        	Log.e("asd",e.getMessage(),e);
             throw new IOException(e.getMessage());
         }
     }
@@ -85,15 +90,16 @@ public class GpxReader extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        buf.setLength(0);
-        
-        name = null;
-        lat = null;
-        lon = null;
-        ele = null;
-        time = null;
+    	buf.setLength(0);
         
         if (qName.equals("wpt")) {
+        	
+        	name = null;
+            lat = null;
+            lon = null;
+            ele = null;
+            time = null;
+            
             lat = Double.parseDouble(attributes.getValue("lat"));
             lon = Double.parseDouble(attributes.getValue("lon"));
         }
@@ -118,7 +124,9 @@ public class GpxReader extends DefaultHandler {
             ele = Double.parseDouble(buf.toString());
         } else if (qName.equals("time")) {
             try {
-                time = TIME_FORMAT.parse(buf.toString());
+            	String timeString = buf.toString();
+            	timeString = timeString.replaceAll("\\s+", " ");
+                time = TIME_FORMAT.parse(timeString);
             } catch (ParseException e) {
                 throw new SAXException("Invalid time " + buf.toString());
             }

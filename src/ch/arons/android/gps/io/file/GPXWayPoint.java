@@ -7,7 +7,7 @@ public class GPXWayPoint {
 	public String name;
 	public double lat;
 	public double lon;
-	public double ele;
+	public Double ele;
 	public Date time;
     
 }

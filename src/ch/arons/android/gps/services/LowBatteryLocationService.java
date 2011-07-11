@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.Toast;
 import ch.arons.android.gps.Preferences;
 import ch.arons.android.gps.io.file.GPXWriter;
+import ch.arons.android.gps.io.file.LogFile;
 
 public class LowBatteryLocationService extends Service {
 	private static final String COMPONENT = "LowBatteryLocationService";
@@ -71,12 +72,15 @@ public class LowBatteryLocationService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(COMPONENT, "onStartCommand");
 		Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+		LogFile.log("Start Service");
 		
 		initLocation();
 
 		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0L, 0, passiveLocationListner);
 		
 		clock.schedule(clockTask, 0, 1000 * 60 * CLOCK_FREQ_MIN);
+		
+		
 		
 		// If we get killed, after returning from here, restart
 		return START_STICKY;
@@ -102,6 +106,7 @@ public class LowBatteryLocationService extends Service {
 		
 		
 		Toast.makeText(this, "service stopped", Toast.LENGTH_SHORT).show();
+		LogFile.log("Stop Service");
 	}
 
 	/**
@@ -138,6 +143,7 @@ public class LowBatteryLocationService extends Service {
 		gpsLastStart = System.currentTimeMillis();
 		gpsStarted = true;
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsLocationListner);
+		LogFile.log("requestGPS");
 	}
 	private void removeGPS(){
 		
@@ -167,6 +173,7 @@ public class LowBatteryLocationService extends Service {
 			locationManager.removeUpdates(gpsLocationListner);
 			gpsLocationListner.setUserRequest(false);
 			gpsStarted = false;
+			LogFile.log("forceRemoveGPS");
 	}
 	
 	
@@ -192,28 +199,35 @@ public class LowBatteryLocationService extends Service {
 		
 		if(location == null) return;
 		
+		LogFile.log("processLocationUpdate, location:"+location);
+		
 		boolean needUpdate = userRequest;
 		long now = System.currentTimeMillis();
 		
 		if(LocationStatus.lastLoc == null){
 			needUpdate = true;
-		
+			LogFile.log(" + lastLoc is null");
 		}else{
 			Location lastLoc = LocationStatus.lastLoc;
 			long locationTimeMS = lastLoc.getTime();
 			
 			if(location.hasAccuracy() && location.getAccuracy() > MIN_ACCURACY){
 				needUpdate = false;
+				LogFile.log(" + accuracy >");
 			}else{
 				needUpdate |= now - locationTimeMS > 5 * 60000L; // 5 min
+				LogFile.log(" + time needUpdate:"+needUpdate);
 				needUpdate |= (location.hasAccuracy() && !lastLoc.hasAccuracy());
+				LogFile.log(" + accuracy needUpdate:"+needUpdate);
 				needUpdate |= location.hasAccuracy() && lastLoc.hasAccuracy() && location.getAccuracy() < lastLoc.getAccuracy();
+				LogFile.log(" + accuracy needUpdate:"+needUpdate);
 			}
 			
 		}
 		
 		
 		if(needUpdate){
+			LogFile.log(" + UPDATE");
 			Log.d(COMPONENT, "updateLoc:" + location);
 			LocationStatus.lastLoc = location;
 			
@@ -224,7 +238,11 @@ public class LowBatteryLocationService extends Service {
 			
 			LocationStatus.notifyUpdate();
 			
+		}else{
+			LogFile.log(" + DISCARD");
 		}
+		
+		
 		
 	}
 	
